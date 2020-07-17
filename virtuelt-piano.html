@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+<style>
+	html, body{
+		height: 100%;
+	}
+	h1{
+		font-family:"Times New Roman";
+		font-style: oblique;
+		font-size: 50px;
+		text-align: center;
+	}
+	.flex-container{
+		display: flex;
+		flex-direction: column;
+		width: 50%;
+		height: auto;
+		max-width: 700px;
+		flex-wrap: no-wrap;
+		margin: auto;
+		
+		
+	}
+	.white-tangent{
+		fill: white;
+		stroke-width: 2px;
+		stroke: black;
+	}
+	
+	.flex-container > h1, svg{
+		width: 100%;
+		max-width: 700px;
+	}
+	
+	.piano{
+		box-shadow: 10px 10px 10px 5px grey;
+		background-color: grey;
+	}
+	
+	
+	@media screen and (max-height: 400px){
+		p, h1, text{
+			font-size: 10px;
+		}
+		.picture{
+			height: 150px;
+		}
+	}
+	
+	rect{
+		background-color: blue;
+	}
+	
+		
+</style>
+</head>
+
+<title>Piano</title>
+
+<body>
+	<div class="flex-container">
+		<h1 class="title">Piano</h1>
+		<svg height="300px" class="piano">
+		
+			<rect width="14%" height="100%" id="c" class="white-tangent" x="0%" y="0" rx="10" ry="10"/>
+			<rect width="14%" height="100%" id="d" class="white-tangent" x="14%" y="0" rx="10" ry="10"/>
+			<rect width="14%" height="100%" id="e" class="white-tangent" x="28%" y="0" rx="10" ry="10"/>
+			<rect width="14%" height="100%" id="f" class="white-tangent" x="42%" y="0" rx="10" ry="10"/>
+			<rect width="14%" height="100%" id="g" class="white-tangent" x="56%" y="0" rx="10" ry="10"/>
+			<rect width="14%" height="100%" id="a" class="white-tangent" x="70%" y="0" rx="10" ry="10"/>
+			<rect width="16%" height="100%" id="h" class="white-tangent" x="84%" y="0" rx="10" ry="10"/>
+																	   
+			<rect width="7%" height="60%" id="cS" class="black-tangent" x="10%" y="0" rx="10" ry="10"/>
+			<rect width="7%" height="60%" id="dS" class="black-tangent" x="24%" y="0" rx="10" ry="10"/>
+			<rect width="7%" height="60%" id="fS" class="black-tangent" x="52%" y="0" rx="10" ry="10"/>
+			<rect width="7%" height="60%" id="gS" class="black-tangent" x="66%" y="0" rx="10" ry="10"/>
+			<rect width="7%" height="60%" id="aS" class="black-tangent" x="80%" y="0" rx="10" ry="10"/>
+		</svg>
+		<svg height="100px" class="notes">
+			
+			<circle cx="7%" cy="50%" r="6%" id="cCircle"/>
+			<text x="6%" y="57%" id="cText">C</text>
+			<circle cx="21%" cy="50%" r="6%" id="dCircle"/>
+			<text x="20%" y="57%" id="dText">D</text>
+			<circle cx="35%" cy="50%" r="6%" id="eCircle"/>
+			<text x="34%" y="57%" id="eText">E</text>
+			<circle cx="49%" cy="50%" r="6%" id="fCircle"/>
+			<text x="48%" y="57%" id="fText">F</text>
+			<circle cx="63%" cy="50%" r="6%" id="gCircle"/>
+			<text x="62%" y="57%" id="gText">G</text>
+			<circle cx="77%" cy="50%" r="6%" id="aCircle"/>
+			<text x="76%" y="57%" id="aText">A</text>
+			<circle cx="91%" cy="50%" r="6%" id="hCircle"/>
+			<text x="90%" y="57%" id="hText">H</text>
+			
+			<circle cx="14%" cy="50%" r="6%" id="cSCircle"/>
+			<text x="13%" y="57%" id="cSText">C#</text>
+			<circle cx="28%" cy="50%" r="6%" id="dSCircle"/>
+			<text x="27%" y="57%" id="dSText">D#</text>
+			<circle cx="56%" cy="50%" r="6%" id="fSCircle"/>
+			<text x="55%" y="57%" id="fSText">F#</text>
+			<circle cx="70%" cy="50%" r="6%" id="gSCircle"/>
+			<text x="69%" y="57%" id="gSText">G#</text>
+			<circle cx="84%" cy="50%" r="6%" id="aSCircle"/>
+			<text x="83%" y="57%" id="aSText">A#</text>
+			
+		</svg>
+		
+<audio src="" id="lyd" type="audio/mp3"></audio>
+
+
+<script src="./jquery.js"></script>
+<script>
+	$(function(){
+		$("text").hide();
+		$("circle").hide();
+		let mousedown=0;
+		
+		$(".white-tangent").on('mousedown', function(){
+			mousedown=1;
+			let tangent=$(this).attr("id");
+			$("#lyd").attr("src",tangent+".mp3");
+			$("#"+tangent).css({fill: "grey"});
+			$("#lyd")[0].play();
+			$("#"+tangent+"Circle").fadeIn(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeIn(100);
+			
+		});
+		
+		$(".white-tangent").on('mouseover', function(){
+		if(mousedown==1){
+			let tangent=$(this).attr("id");
+			$("#lyd").attr("src",tangent+".mp3");
+			$("#"+tangent).css({fill: "grey"});
+			$("#lyd")[0].play();
+			$("#"+tangent+"Circle").fadeIn(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeIn(100);
+			}
+		});
+		
+		$(".white-tangent").on("mouseup", function(){
+			mousedown=0;
+			let tangent=$(this).attr("id");
+			$('#'+tangent).css({fill: "white"});
+			$("#lyd")[0].pause();
+			$("#lyd")[0].currentTime=0;
+			$("#"+tangent+"Circle").fadeOut(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeOut(100);
+			});		
+		
+		$(".white-tangent").on("mouseout", function(){
+			let tangent=$(this).attr("id");
+			$('#'+tangent).css({fill: "white"});
+			$("#lyd")[0].pause();
+			$("#lyd")[0].currentTime=0;
+			$("#"+tangent+"Circle").fadeOut(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeOut(100);
+			});		
+			
+			
+			
+			
+		$(".black-tangent").on("mousedown", function(){
+			mousedown=1;
+			let tangent=$(this).attr("id");
+			$("#lyd").attr("src",tangent+".mp3");
+			$("#"+tangent).css({fill: "grey"});
+			$("#lyd")[0].play();
+			$("#"+tangent+"Circle").fadeIn(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeIn(100);
+		});
+		
+		$(".black-tangent").on("mouseover", function(){
+		if(mousedown==1){
+			let tangent=$(this).attr("id");
+			$("#lyd").attr("src",tangent+".mp3");
+			$("#"+tangent).css({fill: "grey"});
+			$("#lyd")[0].play();
+			$("#"+tangent+"Circle").fadeIn(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeIn(100);
+			}
+		});
+		
+		$(".black-tangent").on("mouseup", function(){
+			mousedown=0;
+			let tangent=$(this).attr("id");
+			$('#'+tangent).css({fill: "black"});
+			$("#lyd")[0].pause();
+			$("#lyd")[0].currentTime=0;
+			$("#"+tangent+"Circle").fadeOut(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeOut(100);
+			});	
+			
+		$(".black-tangent").on("mouseout", function(){
+			let tangent=$(this).attr("id");
+			$('#'+tangent).css({fill: "black"});
+			$("#lyd")[0].pause();
+			$("#lyd")[0].currentTime=0;
+			$("#"+tangent+"Circle").fadeOut(100).css({fill: 'lightgrey'});
+			$("#"+tangent+"Text").fadeOut(100);
+			});	
+			
+
+		
+	});
+</script>
+</body>
+</html>
